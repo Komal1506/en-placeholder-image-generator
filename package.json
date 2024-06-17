@@ -1,0 +1,29 @@
+{
+  "name": "enhanced-placeholder-image-generator",
+  "version": "1.0.0",
+  "description": "The package provides a utility to generate customizable placeholder images with text on a canvas supporting dynamic dimensions, fonts, and background colors.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Komal1506/en-placeholder-image-generator.git"
+  },
+  "keywords": [
+    "npm",
+    "image",
+    "generator",
+    "placeholder"
+  ],
+  "author": "Komal Suryawanshi",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Komal1506/en-placeholder-image-generator/issues"
+  },
+  "homepage": "https://github.com/Komal1506/en-placeholder-image-generator#readme",
+  "dependencies": {
+    "canvas": "^2.11.2"
+  }
+}
