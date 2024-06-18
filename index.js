@@ -1,8 +1,7 @@
+import { createCanvas, loadImage } from 'canvas';
+import fs from 'fs';
 
-const { createCanvas, loadImage } = require('canvas');
-const fs = require('fs');
-
-class PlaceholderImageGenerator {
+export default class PlaceholderImageGenerator {
   constructor() {
     this.width = 300;
     this.height = 300;
@@ -140,6 +139,3 @@ class PlaceholderImageGenerator {
     }
   }
 }
-
-module.exports = PlaceholderImageGenerator;
-
