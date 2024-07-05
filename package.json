@@ -1,6 +1,6 @@
 {
   "name": "enhanced-placeholder-image-generator",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "The package provides a utility to generate customizable placeholder images with text on a canvas supporting dynamic dimensions, fonts, and background colors.",
   "main": "index.js",
   "type": "module",
