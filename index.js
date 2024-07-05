@@ -18,7 +18,7 @@ export default class PlaceholderImageGenerator {
   }
 
   setText(text = ' ', length = text.length) {
-    this.text = text.slice(0, length).toUpperCase();
+    this.text = text.slice(0, length);
     return this;
   }
 
@@ -95,6 +95,61 @@ export default class PlaceholderImageGenerator {
     const x = this.textPosition.x !== null ? this.textPosition.x : this.width / 2;
     const y = this.textPosition.y !== null ? this.textPosition.y : this.height / 2;
     this.ctx.fillText(this.text, x, y);
+  }
+
+  // Method to draw a circle
+  drawCircle(x, y, radius, color = '#000000') {
+    this.ctx.beginPath();
+    this.ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+    this.ctx.fillStyle = color;
+    this.ctx.fill();
+    this.ctx.stroke();
+    return this;
+  }
+
+  // Method to draw a rectangle
+  drawRectangle(x, y, width, height, color = '#000000') {
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(x, y, width, height);
+    this.ctx.strokeRect(x, y, width, height);
+    return this;
+  }
+
+  // Method to draw an oval
+  drawOval(x, y, radiusX, radiusY, color = '#000000') {
+    this.ctx.beginPath();
+    this.ctx.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * Math.PI);
+    this.ctx.fillStyle = color;
+    this.ctx.fill();
+    this.ctx.stroke();
+    return this;
+  }
+
+  // Method to draw a triangle
+  drawTriangle(x1, y1, x2, y2, x3, y3, color = '#000000') {
+    this.ctx.beginPath();
+    this.ctx.moveTo(x1, y1);
+    this.ctx.lineTo(x2, y2);
+    this.ctx.lineTo(x3, y3);
+    this.ctx.closePath();
+    this.ctx.fillStyle = color;
+    this.ctx.fill();
+    this.ctx.stroke();
+    return this;
+  }
+
+  // Method to draw a polygon (hexagon, octagon, etc.)
+  drawPolygon(points, color = '#000000') {
+    this.ctx.beginPath();
+    this.ctx.moveTo(points[0][0], points[0][1]);
+    for (let i = 1; i < points.length; i++) {
+      this.ctx.lineTo(points[i][0], points[i][1]);
+    }
+    this.ctx.closePath();
+    this.ctx.fillStyle = color;
+    this.ctx.fill();
+    this.ctx.stroke();
+    return this;
   }
 
   draw() {
