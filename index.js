@@ -1,5 +1,8 @@
+
+//update version
+
 import { createCanvas, loadImage } from 'canvas';
-import fs from 'fs';
+import fs from 'fs/promises'; // Using fs.promises for asynchronous file handling
 
 export default class PlaceholderImageGenerator {
   constructor() {
@@ -15,10 +18,13 @@ export default class PlaceholderImageGenerator {
     this.borderWidth = 0;
     this.textPosition = { x: null, y: null };
     this.imageQuality = 0.92; // Default JPEG quality
+    this.shapesToDraw = [];   // Store shapes to be drawn later
   }
 
+  // New features in the updated version
+
   setText(text = ' ', length = text.length) {
-    this.text = text.slice(0, length).toUpperCase();
+    this.text = text.slice(0, length);
     return this;
   }
 
@@ -97,6 +103,75 @@ export default class PlaceholderImageGenerator {
     this.ctx.fillText(this.text, x, y);
   }
 
+  // Method to draw a circle
+  drawCircle(x, y, radius, color = '#000000') {
+    this.shapesToDraw.push(() => {
+      this.ctx.beginPath();
+      this.ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+      this.ctx.fillStyle = color;
+      this.ctx.fill();
+      this.ctx.stroke();
+    });
+    return this;
+  }
+
+  // Method to draw a rectangle
+  drawRectangle(x, y, width, height, color = '#000000') {
+    this.shapesToDraw.push(() => {
+      this.ctx.fillStyle = color;
+      this.ctx.fillRect(x, y, width, height);
+      this.ctx.strokeRect(x, y, width, height);
+    });
+    return this;
+  }
+
+  // Method to draw an oval
+  drawOval(x, y, radiusX, radiusY, color = '#000000') {
+    this.shapesToDraw.push(() => {
+      this.ctx.beginPath();
+      this.ctx.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * Math.PI);
+      this.ctx.fillStyle = color;
+      this.ctx.fill();
+      this.ctx.stroke();
+    });
+    return this;
+  }
+
+  // Method to draw a triangle
+  drawTriangle(x1, y1, x2, y2, x3, y3, color = '#000000') {
+    this.shapesToDraw.push(() => {
+      this.ctx.beginPath();
+      this.ctx.moveTo(x1, y1);
+      this.ctx.lineTo(x2, y2);
+      this.ctx.lineTo(x3, y3);
+      this.ctx.closePath();
+      this.ctx.fillStyle = color;
+      this.ctx.fill();
+      this.ctx.stroke();
+    });
+    return this;
+  }
+
+  // Method to draw a polygon (hexagon, octagon, etc.)
+  drawPolygon(points, color = '#000000') {
+    this.shapesToDraw.push(() => {
+      this.ctx.beginPath();
+      this.ctx.moveTo(points[0][0], points[0][1]);
+      for (let i = 1; i < points.length; i++) {
+        this.ctx.lineTo(points[i][0], points[i][1]);
+      }
+      this.ctx.closePath();
+      this.ctx.fillStyle = color;
+      this.ctx.fill();
+      this.ctx.stroke();
+    });
+    return this;
+  }
+
+  _drawShapes() {
+    this.shapesToDraw.forEach((drawShape) => drawShape());
+  }
+
   draw() {
     if (!this.width || !this.height) throw new Error('Set dimensions first.');
     if (!this.text) throw new Error('Set text first.');
@@ -104,10 +179,12 @@ export default class PlaceholderImageGenerator {
     this._drawBackground();
     this._drawBorder();
     this._drawText();
+    this._drawShapes();  // Draw the shapes after text and background
     return this.canvas.toDataURL('image/png');
   }
 
-  saveImage(format = 'png', path = 'placeholder.png') {
+  // Asynchronous image saving method
+  async saveImageAsync(format = 'png', path = 'placeholder.png') {
     this.draw(); // Ensure the image is drawn before saving
     let buffer;
 
@@ -126,16 +203,23 @@ export default class PlaceholderImageGenerator {
         throw new Error('Unsupported format.');
     }
 
-    fs.writeFileSync(path, buffer);
-    console.log(`Image saved at ${path}`);
+    try {
+      await fs.writeFile(path, buffer);
+      return `Image saved at ${path}`;
+    } catch (err) {
+      throw new Error(`Failed to save image: ${err.message}`);
+    }
   }
 
-  deleteImage(path = 'placeholder.png') {
-    if (fs.existsSync(path)) {
-      fs.unlinkSync(path);
-      console.log(`Image deleted at ${path}`);
-    } else {
-      console.log(`Image not found at ${path}`);
+  // Asynchronous image deletion method
+  async deleteImageAsync(path = 'placeholder.png') {
+    try {
+      await fs.unlink(path);
+      return `Image deleted at ${path}`;
+    } catch (err) {
+      return `Image not found at ${path}`;
     }
   }
 }
+
+
