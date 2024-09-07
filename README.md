@@ -1,7 +1,5 @@
 # en-placeholder-image-generator
 The package provides a utility to generate customizable placeholder images with text on a canvas, supporting dynamic dimensions, fonts, and background colors.
-<<<<<<< HEAD
-=======
 
 
 
@@ -127,5 +125,3 @@ update in new version
 ```
 
 
-
->>>>>>> f2e2c8cb688da26a01912b0099c0143f7bb6f99d
