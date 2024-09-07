@@ -20,9 +20,10 @@ $ npm install enhanced-placeholder-image-generator
 
 ## Features
 
-- Set dimensions, background color, text color, font, text content, border color, and width.
-- Save generated images locally.
-- Delete generated images.
+Set dimensions, background color, text color, font, text content, border color, and width.
+Save generated images locally in different formats (PNG, JPEG, GIF).
+Delete generated images.
+Draw various shapes: circles, rectangles, ovals, triangles, and polygons.
 
 ## Usage
 
@@ -44,38 +45,54 @@ generator.setDimensions(500, 500)
          .setImageQuality(0.95);
 
 // Save the image
-generator.saveImage('jpeg', 'output-image.jpeg')
-    .then(() => {
-        console.log('Image saved successfully');
+generator.saveImageAsync('jpeg', 'output-image.jpeg')
+    .then((message) => {
+        console.log(message);
     })
     .catch((err) => {
         console.error('Error saving image:', err.message);
     });
 
 // Delete the image (optional)
-generator.deleteImage('output-image.jpeg')
-    .then(() => {
-        console.log('Image deleted successfully');
+generator.deleteImageAsync('output-image.jpeg')
+    .then((message) => {
+        console.log(message);
     })
     .catch((err) => {
         console.error('Error deleting image:', err.message);
     });
+
+// Draw shapes
+generator.drawCircle(250, 250, 50, '#FF0000');
+generator.drawRectangle(50, 50, 100, 200, '#00FF00');
+generator.drawOval(150, 150, 50, 100, '#0000FF');
+generator.drawTriangle(100, 100, 150, 200, 50, 200, '#FFFF00');
+generator.drawPolygon([[300, 100], [350, 150], [300, 200], [250, 150]], '#FF00FF');
+
+// Generate the image (needed to save or display the image)
+generator.draw();  // Ensure the image is drawn before saving
 ```
 
 ## Commands
 
-- **Install Package**: `npm install enhanced-placeholder-image-generator`
-- **Set Dimensions**: `.setDimensions(width, height)`
-- **Set Background Color**: `.setBackgroundColor(color)`
-- **Set Text Color**: `.setTextColor(color)`
-- **Set Font**: `.setFont(font)`
-- **Set Text**: `.setText(text)`
-- **Set Border Color**: `.setBorderColor(color)`
-- **Set Border Width**: `.setBorderWidth(width)`
-- **Set Text Position**: `.setTextPosition(x, y)`
-- **Set Image Quality**: `.setImageQuality(quality)`
-- **Save Image**: `.saveImage(format, filename)`
-- **Delete Image**: `.deleteImage(filename)`
+Install Package: npm install enhanced-placeholder-image-generator
+Set Dimensions: .setDimensions(width, height)
+Set Background Color: .setBackgroundColor(color)
+Set Text Color: .setTextColor(color)
+Set Font: .setFont(font)
+Set Text: .setText(text)
+Set Border Color: .setBorderColor(color)
+Set Border Width: .setBorderWidth(width)
+Set Text Position: .setTextPosition(x, y)
+Set Image Quality: .setImageQuality(quality)
+Save Image: .saveImageAsync(format, filename)
+Delete Image: .deleteImageAsync(filename)
+Draw Circle: .drawCircle(x, y, radius, color)
+Draw Rectangle: .drawRectangle(x, y, width, height, color)
+Draw Oval: .drawOval(x, y, radiusX, radiusY, color)
+Draw Triangle: .drawTriangle(x1, y1, x2, y2, x3, y3, color)
+Draw Polygon: .drawPolygon(points, color)
+
 
 ## Configuration Issues and Solutions
 
@@ -97,19 +114,14 @@ This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENS
 ```
 
 update in new version
-1. Removed the .toUpperCase() method call in the setText method to allow for text in its original case.
-2. Added methods to draw various shapes: circle, rectangle, oval, triangle, and polygon.
+
+### Summary of Changes:
+
+1. **Updated Method Names**: Changed `saveImage` to `saveImageAsync` and `deleteImage` to `deleteImageAsync`.
+2. **Added Shape Drawing**: Included commands and usage examples for drawing shapes.
+3. **Added Draw Method**: Added usage of the `draw()` method to generate the image before saving or displaying.
 
 
-
-// Draw shapes
-
-```javascript
- generator.drawCircle(250, 250, 50, '#FF0000');
- generator.drawRectangle(50, 50, 100, 200, '#00FF00');
- generator.drawOval(150, 150, 50, 100, '#0000FF');
- generator.drawTriangle(100, 100, 150, 200, 50, 200, '#FFFF00');
- generator.drawPolygon([[300, 100], [350, 150], [300, 200], [250, 150]], '#FF00FF');
 ```
 
 
